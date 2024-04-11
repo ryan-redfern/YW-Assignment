@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Attendee Client for Event Registration Service</title>
+  </head>
+  <header>
+  <h1>Attendee Client for Event Registration Service</h1>
+
+</header>
+  <body>
+    <div>
+      <input type="text" id="user_id" placeholder="Enter User ID"/>
+      <button type="button" onclick="list_events();">List All Events</button>
+	  
+	  
+    </div>
+	
+    <hr/>
+    <div>
+      <input type="text" id="event_id" placeholder="Enter Event ID"/>
+      <button type="button" onclick="register();">Register</button>
+      <button type="button" onclick="cancel();">Cancel</button>
+	  <button type="button" onclick="viewuserevents();">View Events for User</button>
+      
+    </div>
+    <hr/>
+    <div id="output">
+	
+	
+	
+	
+    </div>
+
+    <script>
+      function list_events() {
+        const output = document.getElementById('output');
+        
+        let url = 'http://localhost:8080/attendee/fetchall/';
+        
+        fetch(url).
+          then(response => response.text()).
+          then(data => output.innerHTML = data).
+		  catch(error => output.innerHTML = error);
+		  
+		  }
+		function viewuserevents() {
+        const output = document.getElementById('output');
+        const userid_val = document.getElementById('user_id').value;
+        const eventid_val = document.getElementById('event_id').value;
+		const event = {userid: userid_val, eventid: userid_val};
+        let url = 'http://localhost:8080/attendee/fetchall/' +userid_val;
+        
+        
+        fetch(url).
+          then(response => response.text()).
+          then(data => output.innerHTML = data).
+          catch(error => output.innerHTML = error);
+      }
+		  
+		  
+    
+	
+      function register() {
+        const output = document.getElementById('output');
+        const userid_val = document.getElementById('user_id').value;
+        const eventid_val = document.getElementById('event_id').value;
+		const event = {userid: userid_val, eventid: userid_val};
+        let url = 'http://localhost:8080/attendee/register/' + eventid_val +'/' +userid_val;
+		
+       
+        fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(event)}).
+          // No JSON parsing here because a successful request returns only a status code.
+          // Amend this code such that the response body is parsed at least for unsuccessful requests.
+          then(response => output.innerHTML = response.status).
+          catch(error => output.innerHTML = error);
+      }
+      
+   
+	
+      function cancel() {
+        const output = document.getElementById('output');
+        const userid_val = document.getElementById('user_id').value;
+        const eventid_val = document.getElementById('event_id').value;
+		const event = {userid: userid_val, eventid: userid_val};
+        let url = 'http://localhost:8080/attendee/delete/' + eventid_val +'/' +userid_val;
+		
+       
+        fetch(url, {method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(event)}).
+          // No JSON parsing here because a successful request returns only a status code.
+          // Amend this code such that the response body is parsed at least for unsuccessful requests.
+          then(response => output.innerHTML = response.status).
+          catch(error => output.innerHTML = error);
+      }
+	  
+    </script>
+  </body>
+</html>

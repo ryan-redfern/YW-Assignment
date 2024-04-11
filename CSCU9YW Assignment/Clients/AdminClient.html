@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Admin Client for Event Registration Service</title>
+  </head>
+  <header>
+  <h1>Admin Client for Event Registration Service</h1>
+
+</header>
+  <body>
+    <div>
+      
+      <button type="button" onclick="list_events();">List All Events</button>
+	  
+	  
+    </div>
+    <hr/>
+    <div>
+		
+      <input type="text" id="event_id" placeholder="Enter Event ID"/>
+      <button type="button" onclick="list_attendees();">List Attendees</button>
+      
+	  <button type="button" onclick="validate();">Validate</button>
+      
+    </div>
+	<h1> Create new Event </h1>
+	<div>
+	  <input type="text" id="event_idid" placeholder="ID"/>
+      <input type="text" id="event_name" placeholder="Name"/>
+	  <input type="text" id="event_desc" placeholder="Description"/>
+	  <input type="text" id="event_loc" placeholder="Location"/>
+	  <input type="text" id="event_date" placeholder="Date"/>
+	  <input type="text" id="event_time" placeholder="Time"/>
+	  <input type="text" id="event_dur" placeholder="Duration"/>
+      <button type="button" onclick="create_event();">Create/Update Event</button>
+      
+	  
+      
+    </div>
+    <hr/>
+    <div id="output">
+	
+	
+	
+	
+    </div>
+
+    <script>
+      function list_events() {
+        const output = document.getElementById('output');
+        
+        let url = 'http://localhost:8080/admin/fetchall/';
+        
+        fetch(url).
+          then(response => response.text()).
+          then(data => output.innerHTML = data).
+		  catch(error => output.innerHTML = error);
+		  
+		  }
+	  function create_event() {
+        const output = document.getElementById('output');
+		const id_val = document.getElementById('event_idid').value;
+        const name_val = document.getElementById('event_name').value;
+        const desc_val = document.getElementById('event_desc').value;
+		const loc_val = document.getElementById('event_loc').value;
+        const date_val = document.getElementById('event_date').value;
+		const time_val = document.getElementById('event_time').value;
+        const dur_val = document.getElementById('event_dur').value;
+		const event = {eventid: id_val, name: name_val, description: desc_val, location: loc_val, date: date_val, time: time_val, duration: dur_val};
+        let url = 'http://localhost:8080/admin/createevent/' + id_val +'/' +name_val+'/'+desc_val+'/'+loc_val+'/'+date_val+'/'+time_val+'/'+dur_val;
+		
+       
+        fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(event)}).
+          // No JSON parsing here because a successful request returns only a status code.
+          // Amend this code such that the response body is parsed at least for unsuccessful requests.
+          then(response => output.innerHTML = response.status).
+          catch(error => output.innerHTML = error);
+      }
+      function list_attendees() {
+        const output = document.getElementById('output');
+        
+        const eventid_val = document.getElementById('event_id').value;
+		
+        let url = 'http://localhost:8080/admin/fetchattendees/' + eventid_val;
+		
+       
+        fetch(url).
+          then(response => response.text()).
+          then(data => output.innerHTML = data).
+          catch(error => output.innerHTML = error);
+      }
+      
+   
+	
+      function validate() {
+        const output = document.getElementById('output');
+        
+        let url = 'http://localhost:8080/admin/validate/';
+        
+        fetch(url).
+          then(response => response.text()).
+          then(data => output.innerHTML = data).
+		  catch(error => output.innerHTML = error);
+		  
+		  }
+	  
+    </script>
+  </body>
+</html>

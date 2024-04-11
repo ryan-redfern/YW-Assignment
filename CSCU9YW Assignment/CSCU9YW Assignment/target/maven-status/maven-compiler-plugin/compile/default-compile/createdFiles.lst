@@ -1,0 +1,8 @@
+com\stir\AdminAttendeeApp\AdminAttendeeApp.class
+com\stir\AdminAttendeeApp\controller\AdminController.class
+com\stir\AdminAttendeeApp\controller\AttendeeController.class
+com\stir\AdminAttendeeApp\service\AdminImplementation.class
+com\stir\AdminAttendeeApp\service\AdminInterface.class
+com\stir\AdminAttendeeApp\model\Attendee.class
+com\stir\AdminAttendeeApp\AdminAttendeeApp$1.class
+com\stir\AdminAttendeeApp\model\Events.class
